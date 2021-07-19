@@ -60,6 +60,6 @@ def create_paste(name, code, lang):
             data.pop('api_user_key')
             response = requests.post('https://pastebin.com/api/api_post.php', data=data)
 
-        result = catch_api_errors(response.text)
+    result = catch_api_errors(response.text)
         
     return result
