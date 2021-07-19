@@ -40,6 +40,10 @@ def create_paste(name, code, lang):
     response = requests.post('https://pastebin.com/api/api_post.php', data=data)
     if response.status_code != 200:
         log.error('API error. Response: ' + response.text)
+        if 'maximum pastes' in response.text:
+            data['api_paste_private'] = 0
+            response = requests.post('https://pastebin.com/api/api_post.php', data=data)
+        
     result = catch_api_errors(response.text)
 
     return result
