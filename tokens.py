@@ -1,3 +1,5 @@
-TELEGRAM_API_TOKEN = 'Telegram bot API token'
-PASTEBIN_API_TOKEN = 'Pastebin dev key'
-PASTEBIN_USER_TOKEN = 'Pastebin user key'
+import os
+
+PASTEBIN_API_TOKEN = os.environ.get('PASTEBIN_API_TOKEN')
+PASTEBIN_USER_TOKEN = os.environ.get('PASTEBIN_USER_TOKEN')
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
