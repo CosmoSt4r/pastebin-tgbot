@@ -2,15 +2,21 @@ import requests
 import tokens
 from main import log
 
+# Dictionary for flexible casting languages into proper Pastebin formats
 languages = {'с++': 'cpp', 'c++': 'cpp', 'си++' : 'cpp', 'с плюс плюс' : 'cpp', 'си плюс плюс' : 'cpp',
              'си': 'c', 'с' : 'c',
              'питон': 'python'}
 
 def normalize_language(lang):
+    # Try to cast language into proper format
+    # if failed return passed value
     return languages.get(lang) if languages.get(lang) else lang
 
 
 def catch_api_errors(api_response):
+    # Catch various Pastebin API response errors
+    # Logs the error and returns user-friendly error message
+    
     if 'pastebin.com' in api_response:
         log.info(f'New paste created at {api_response}')
         return api_response
@@ -31,6 +37,8 @@ def catch_api_errors(api_response):
 
 
 def create_paste(name, code, lang):
+    # Create paste with given parameters with 1 day time limit
+    
     data = {'api_dev_key': tokens.PASTEBIN_API_TOKEN,
             'api_option': 'paste',
             'api_paste_code': code,
@@ -41,12 +49,17 @@ def create_paste(name, code, lang):
             'api_paste_format': normalize_language(lang)}
 
     response = requests.post('https://pastebin.com/api/api_post.php', data=data)
+    
     if response.status_code != 200:
         log.error('API error. Response: ' + response.text)
+
+        # If maximum pastes as user reached try to paste as guest
+        # ( gives 10 additional pastes )
         if 'maximum pastes' in response.text:
             data['api_paste_private'] = 0
+            data.pop('api_user_key')
             response = requests.post('https://pastebin.com/api/api_post.php', data=data)
-        
-    result = catch_api_errors(response.text)
 
+        result = catch_api_errors(response.text)
+        
     return result
