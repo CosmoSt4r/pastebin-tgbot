@@ -3,6 +3,9 @@ import pastebin
 import telebot
 import tokens
 
+# Amount of created pastes (global var)
+pastes_count = 0
+
 # Create bot instance
 bot = telebot.TeleBot(tokens.TELEGRAM_BOT_TOKEN)
 

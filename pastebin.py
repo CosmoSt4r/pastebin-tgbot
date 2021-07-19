@@ -1,11 +1,12 @@
 import requests
 import tokens
-from main import log
+from main import log, pastes_count
 
 # Dictionary for flexible casting languages into proper Pastebin formats
 languages = {'с++': 'cpp', 'c++': 'cpp', 'си++' : 'cpp', 'с плюс плюс' : 'cpp', 'си плюс плюс' : 'cpp',
              'си': 'c', 'с' : 'c',
              'питон': 'python'}
+
 
 def normalize_language(lang):
     # Try to cast language into proper format
@@ -18,7 +19,9 @@ def catch_api_errors(api_response):
     # Logs the error and returns user-friendly error message
     
     if 'pastebin.com' in api_response:
-        log.info(f'New paste created at {api_response}')
+        global pastes_count
+        pastes_count += 1
+        log.info(f'New paste created at {api_response}. Total: {pastes_count}')
         return api_response
     if 'api_dev_key' in api_response:
         log.warning('Pastebin API dev key is wrong')
