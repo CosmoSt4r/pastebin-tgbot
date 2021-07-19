@@ -3,8 +3,7 @@ import pastebin
 import telebot
 import tokens
 
-bot = telebot.TeleBot(tokens.TELEGRAM_API_TOKEN)
-
+bot = telebot.TeleBot(tokens.TELEGRAM_BOT_TOKEN)
 logging.basicConfig(filename='logs.log',
                     filemode='a',
                     format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
@@ -28,11 +27,11 @@ def parse_message(message):
 @bot.message_handler(func=lambda message : '/pastebin' in message.text)
 def handle_command(message):
 
-    log.info(f'Got message from {message.from_user.first_name}')
     if not message.reply_to_message:
         return bot.reply_to(message, 'Вы должны ответить на сообщение с кодом')
 
     name, code, lang = parse_message(message)
+    log.info(f'Got request from {name} for {lang} language')
 
     if code:
         paste_link = pastebin.create_paste(name, code, lang)

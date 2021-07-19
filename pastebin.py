@@ -7,11 +7,7 @@ languages = {'с++': 'cpp', 'c++': 'cpp', 'си++' : 'cpp', 'с плюс плю�
              'питон': 'python'}
 
 def normalize_language(lang):
-    if languages.get(lang):
-        return languages[lang]
-    else:
-        log.info(f'Couldn\'t find {lang} in languages')
-        return lang
+    return languages.get(lang) if languages.get(lang) else lang
 
 
 def catch_api_errors(api_response):
