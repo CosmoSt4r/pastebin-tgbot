@@ -15,7 +15,10 @@ def catch_api_errors(api_response):
         log.info(f'New paste created at {api_response}')
         return api_response
     if 'api_dev_key' in api_response:
-        log.warning('API key is expired')
+        log.warning('Pastebin API dev key is wrong')
+        return 'Неверный API ключ. Обратитесь к администратору'
+    if 'api_user_key' in api_response:
+        log.warning('Pastebin user key is wrong')
         return 'Неверный API ключ. Обратитесь к администратору'
     if 'maximum pastes' in api_response:
         log.warning('Pastebin limit exceeded')
