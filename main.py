@@ -15,6 +15,7 @@ bot = telebot.TeleBot(tokens.TELEGRAM_BOT_TOKEN)
 logging.basicConfig(format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
                     datefmt='%H:%M:%S',
                     level=logging.DEBUG)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 log = logging.getLogger('logger')
 
 
