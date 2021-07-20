@@ -1,9 +1,9 @@
 import logging
 import telebot
 
-import dpaste
-import pastebin
-import tokens
+import utils.dpaste as dpaste
+import utils.pastebin as pastebin
+import utils.tokens as tokens
 
 # Amount of created pastes (global var)
 pastes_count = 0

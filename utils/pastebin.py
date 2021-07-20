@@ -1,8 +1,8 @@
 import requests
 
-import languages
 import main
-import tokens
+import utils.languages as languages
+import utils.tokens as tokens
 
 
 def catch_api_errors(api_response):
