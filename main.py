@@ -25,13 +25,7 @@ def parse_message(message):
     if not name:
         name = "Anonymous"
         
-    try:
-        lang = message.text[message.text.find(' '):].strip()
-    except IndexError:
-        # if language isn't specified
-        # ( bare '/pastebin' command passed )
-        lang = 'cpp'
-        
+    lang = ' '.join(message.text.split()[1:])
     code = message.reply_to_message.text
 
     return name, code, lang

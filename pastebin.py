@@ -1,14 +1,8 @@
 import requests
 
-from languages import languages
+from languages import normalize_language
 import tokens
 from main import log, pastes_count
-
-
-def normalize_language(lang):
-    # Try to cast language into proper format
-    # if failed return passed value
-    return languages.get(lang) if languages.get(lang) else lang
 
 
 def catch_api_errors(api_response):
