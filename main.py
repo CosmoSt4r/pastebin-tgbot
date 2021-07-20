@@ -26,10 +26,8 @@ def parse_message(message):
     if not name:
         name = "Anonymous"
 
-    message = message.text.split()
-
-    service = message[0].replace('/', '')   
-    lang = ' '.join(message[1:])
+    service = message.text.split()[0].replace('/', '')   
+    lang = ' '.join(message.text.split()[1:])
     code = message.reply_to_message.text
 
     return service, name, code, lang

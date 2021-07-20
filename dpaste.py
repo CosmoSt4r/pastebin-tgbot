@@ -30,7 +30,7 @@ def create_paste(name, code, lang):
 
     response = requests.post('https://dpaste.com/api/v2/', data=data)
     
-    if response.status_code != 200:
+    if response.status_code != 201:
         main.log.error('API error. Response code is ' + str(response.status_code))
     result = catch_api_errors(response.text)
         
