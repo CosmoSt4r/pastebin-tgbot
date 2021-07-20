@@ -1,6 +1,7 @@
 import logging
 import telebot
 
+import dpaste
 import pastebin
 import tokens
 

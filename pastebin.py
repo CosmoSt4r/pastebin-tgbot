@@ -14,6 +14,9 @@ def catch_api_errors(api_response):
         pastes_count += 1
         log.info(f'New paste created at {api_response}. Total: {pastes_count}')
         return api_response
+    if 'api_paste_format' in api_response:
+        log.warning('Undefined language')
+        return 'Не понял язык. Попробуйте по-другому'
     if 'api_dev_key' in api_response:
         log.warning('Pastebin API dev key is wrong')
         return 'Неверный API ключ. Обратитесь к администратору'
@@ -23,10 +26,7 @@ def catch_api_errors(api_response):
     if 'maximum pastes' in api_response:
         log.warning('Pastebin limit exceeded')
         return 'Превышен лимит. Попробуйте позже'
-    if 'api_paste_format' in api_response:
-        log.warning('Undefined language')
-        return 'Не понял язык. Попробуйте по-другому'
-
+    
     return 'Произошла ошибка'
 
 
