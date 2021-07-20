@@ -1,10 +1,23 @@
 # Dictionary for flexible casting languages into proper Pastebin formats
-languages = {'с++': 'cpp', 'c++': 'cpp', 'си++' : 'cpp', 'с плюс плюс' : 'cpp', 'си плюс плюс' : 'cpp',
-             'си': 'c', 'с' : 'c',
-             'питон': 'python', 'питхон': 'python', 'пайтон': 'python'}
+languages = {'cpp'      : ['c++', 'с++', 'си++', 'сплюсплюс', 'сиплюсплюс', 'спп'],
+             'c'        : ['с', 'си'],
+             'python'   : ['питон', 'пайтон', 'питхон', 'pyton', 'piton'],
+             'java'     : ['джава', 'жава', 'жаба', 'ява'],
+             'js'       : ['жс', 'джс', 'javascript', 'жаваскрипт', 'джаваскрипт', 'жабаскрипт'],
+             'csharp'   : ['c#', 'с#', 'сишарп', 'сишарп', 'сшарп']}
 
 
 def normalize(lang):
-    # Try to cast language into proper format
+    # Try to cast language to proper name
     # if failed return passed value
-    return languages.get(lang) if languages.get(lang) else lang
+
+    lang = lang.replace(' ', '')
+
+    if languages.get(lang):
+        return lang
+    
+    for normalized, versions in zip(languages.keys(), languages.values()):
+        if lang in versions:
+            return normalized
+
+    return lang
