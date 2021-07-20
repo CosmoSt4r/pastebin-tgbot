@@ -5,7 +5,7 @@ import utils.languages as languages
 
 
 def catch_api_errors(api_response):
-    # Catch various Pastebin API response errors
+    # Catch various Dpaste API response errors
     # Logs the error and returns user-friendly error message
     api_response = api_response.strip()
     if 'dpaste.com' in api_response:

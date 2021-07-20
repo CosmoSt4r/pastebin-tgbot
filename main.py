@@ -42,7 +42,7 @@ def handle_paste_command(message):
         return bot.reply_to(message, 'Вы должны ответить на сообщение с кодом')
 
     service, name, code, lang = parse_message(message)
-    log.info(f'Got request from {name} for {lang if lang else "unspecified"} language')
+    log.info(f'Got {service} request from {name} for {lang if lang else "unspecified"} language')
 
     if service == 'pastebin':
         paste = pastebin.create_paste(name, code, lang)
@@ -68,10 +68,10 @@ def handle_help_command(message):
 
     log.info(f'{message.from_user.first_name} reads help message')
     reply = '''
-    Для того, чтобы бот загрузил ваш код на Pastebin для начала пришлите\
- ему сообщение с кодом, затем ответьте на него командой /pastebin *язык*.\n
+    Для того, чтобы бот загрузил ваш код для начала пришлите ему сообщение\
+ с кодом, затем ответьте на него командой /pastebin *язык* или /dpaste *язык*.\n
 Например:\n/pastebin c++ или /dpaste питон\n
-Бот обработает сообщение и пришлет ссылку на Pastebin с вашим кодом. \
+Бот обработает сообщение и пришлет ссылку на страницу с вашим кодом. \
 Каждая ссылка активна ровно 24 часа :)
     '''
     return bot.send_message(message.from_user.id, reply)
