@@ -1,8 +1,8 @@
 import requests
 
-from languages import normalize_language
+import languages
+import main
 import tokens
-from main import log, pastes_count
 
 
 def catch_api_errors(api_response):
@@ -11,20 +11,20 @@ def catch_api_errors(api_response):
     
     if 'pastebin.com' in api_response:
         global pastes_count
-        pastes_count += 1
-        log.info(f'New paste created at {api_response}. Total: {pastes_count}')
+        main.pastes_count += 1
+        main.log.info(f'New paste created at {api_response}. Total: {main.pastes_count}')
         return api_response
     if 'api_paste_format' in api_response:
-        log.warning('Undefined language')
+        main.log.warning('Undefined language')
         return 'Не понял язык. Попробуйте по-другому'
     if 'api_dev_key' in api_response:
-        log.warning('Pastebin API dev key is wrong')
+        main.log.warning('Pastebin API dev key is wrong')
         return 'Неверный API ключ. Обратитесь к администратору'
     if 'api_user_key' in api_response:
-        log.warning('Pastebin user key is wrong')
+        main.log.warning('Pastebin user key is wrong')
         return 'Неверный API ключ. Обратитесь к администратору'
     if 'maximum pastes' in api_response:
-        log.warning('Pastebin limit exceeded')
+        main.log.warning('Pastebin limit exceeded')
         return 'Превышен лимит. Попробуйте позже'
     
     return 'Произошла ошибка'
@@ -40,12 +40,12 @@ def create_paste(name, code, lang):
             'api_paste_name': name,
             'api_paste_expire_date': '1D',
             'api_user_key': tokens.PASTEBIN_USER_TOKEN,
-            'api_paste_format': normalize_language(lang)}
+            'api_paste_format': languages.normalize(lang)}
 
     response = requests.post('https://pastebin.com/api/api_post.php', data=data)
     
     if response.status_code != 200:
-        log.error('API error. Response: ' + response.text)
+        main.log.error('API error. Response: ' + response.text)
 
         # If maximum pastes as user reached try to paste as guest
         # ( gives 10 additional pastes )

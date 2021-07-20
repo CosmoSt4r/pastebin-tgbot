@@ -4,7 +4,7 @@ languages = {'с++': 'cpp', 'c++': 'cpp', 'си++' : 'cpp', 'с плюс плю�
              'питон': 'python', 'питхон': 'python', 'пайтон': 'python'}
 
 
-def normalize_language(lang):
+def normalize(lang):
     # Try to cast language into proper format
     # if failed return passed value
     return languages.get(lang) if languages.get(lang) else lang

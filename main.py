@@ -35,7 +35,7 @@ def parse_message(message):
     return service, name, code, lang
 
 
-@bot.message_handler(func=lambda message : '/pastebin' or '/dpaste' in message.text)
+@bot.message_handler(func=lambda message : '/pastebin' in message.text or '/dpaste' in message.text)
 def handle_paste_command(message):
     # Handling '/pastebin' and '/dpaste' commands
 
