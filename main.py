@@ -1,6 +1,7 @@
 import logging
-import pastebin
 import telebot
+
+import pastebin
 import tokens
 
 # Amount of created pastes (global var)
