@@ -18,31 +18,39 @@ log = logging.getLogger('logger')
 
 
 def parse_message(message):
-    # Read message from user and parse name, 
-    # code and language from it
+    # Read message from user and parse service (pastebin or dpaste), 
+    # name, code and language from it
     
     name = message.reply_to_message.from_user.first_name
     if not name:
         name = "Anonymous"
-        
-    lang = ' '.join(message.text.split()[1:])
+
+    message = message.text.split()
+
+    service = message[0].replace('/', '')   
+    lang = ' '.join(message[1:])
     code = message.reply_to_message.text
 
-    return name, code, lang
+    return service, name, code, lang
 
 
-@bot.message_handler(func=lambda message : '/pastebin' in message.text)
-def handle_pastebin_command(message):
-    # Handling '/pastebin' command
+@bot.message_handler(func=lambda message : '/pastebin' or '/dpaste' in message.text)
+def handle_paste_command(message):
+    # Handling '/pastebin' and '/dpaste' commands
 
     # User must reply to message with code
     if not message.reply_to_message:
         return bot.reply_to(message, 'Вы должны ответить на сообщение с кодом')
 
-    name, code, lang = parse_message(message)
-    log.info(f'Got request from {name} for {lang} language')
+    service, name, code, lang = parse_message(message)
+    log.info(f'Got request from {name} for {lang if lang else "unspecified"} language')
 
-    return bot.reply_to(message, pastebin.create_paste(name, code, lang), disable_web_page_preview=True)
+    if service == 'pastebin':
+        paste = pastebin.create_paste(name, code, lang)
+    elif service == 'dpaste':
+        paste = dpaste.create_paste(name, code, lang)
+
+    return bot.reply_to(message, paste, disable_web_page_preview=True)
 
 
 @bot.message_handler(commands=['start'])
