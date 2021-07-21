@@ -49,6 +49,9 @@ def handle_paste_command(message):
         paste = pastebin.create_paste(name, code, lang)
     elif service == 'dpaste':
         paste = dpaste.create_paste(name, code, lang)
+    else:
+        log.error(f"Got an unexpected service: {service}")
+        paste = 'Произошла ошибка'
 
     return bot.reply_to(message, paste, disable_web_page_preview=True)
 
