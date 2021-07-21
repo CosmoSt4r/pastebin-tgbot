@@ -13,7 +13,7 @@
 - Отвечаем на сообщение с кодом командой 
 
   - /pastebin _язык_
-  - /dpase _язык_
+  - /dpaste _язык_
 
 - Получаем ссылку
 
@@ -46,6 +46,6 @@ __________
 
 ```bash
   heroku login
-  heroku git:clone -a pastebin-tgbot
+  heroku git:clone -a your-app-name
   git push heroku master
 ```
