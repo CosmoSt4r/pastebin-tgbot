@@ -11,7 +11,7 @@ def normalize(lang):
     # Try to cast language to proper name
     # if failed return passed value
 
-    lang = lang.replace(' ', '')
+    lang = lang.replace(' ', '').lower()
 
     if languages.get(lang):
         return lang
