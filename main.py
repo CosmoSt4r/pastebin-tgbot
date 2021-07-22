@@ -1,6 +1,5 @@
 import logging
 import telebot
-from telebot.types import Message
 
 import utils.dpaste as dpaste
 import utils.pastebin as pastebin
@@ -20,7 +19,7 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 log = logging.getLogger('logger')
 
 
-def parse_message(message: Message) -> tuple:
+def parse_message(message: telebot.types.Message) -> tuple:
     # Read message from user and parse service (pastebin or dpaste), 
     # name, code and language from it
     
@@ -36,7 +35,7 @@ def parse_message(message: Message) -> tuple:
 
 
 @bot.message_handler(func=lambda message : '/pastebin' in message.text or '/dpaste' in message.text)
-def handle_paste_command(message: Message) -> Message:
+def handle_paste_command(message: telebot.types.Message) -> telebot.types.Message:
     # Handling '/pastebin' and '/dpaste' commands
 
     # User must reply to message with code
@@ -64,7 +63,7 @@ def handle_paste_command(message: Message) -> Message:
 
 
 @bot.message_handler(commands=['start'])
-def handle_start_command(message: Message) -> Message:
+def handle_start_command(message: telebot.types.Message) -> telebot.types.Message:
     # Handling '/start' command
 
     log.info(f'{message.from_user.first_name} started bot')
@@ -74,7 +73,7 @@ def handle_start_command(message: Message) -> Message:
 
 
 @bot.message_handler(commands=['help'])
-def handle_help_command(message: Message) -> Message:
+def handle_help_command(message: telebot.types.Message) -> telebot.types.Message:
     # Handling '/help' command
 
     log.info(f'{message.from_user.first_name} reads help message')
