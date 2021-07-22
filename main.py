@@ -46,9 +46,14 @@ def handle_paste_command(message):
     log.info(f'Got {service} request from {name} for {lang if lang else "unspecified"} language')
 
     if service == 'pastebin':
-        paste = pastebin.create_paste(name, code, lang)
+        if tokens.PASTEBIN_API_TOKEN:
+            paste = pastebin.create_paste(name, code, lang)
+        else:
+            paste = 'Невозможно загрузить на Pastebin. Попробуйте /dpaste'
+
     elif service == 'dpaste':
         paste = dpaste.create_paste(name, code, lang)
+
     else:
         log.error(f"Got an unexpected service: {service}")
         paste = 'Произошла ошибка'

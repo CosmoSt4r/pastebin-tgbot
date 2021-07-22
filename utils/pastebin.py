@@ -42,16 +42,21 @@ def create_paste(name, code, lang):
             'api_user_key': tokens.PASTEBIN_USER_TOKEN,
             'api_paste_format': languages.normalize(lang)}
 
+    if not tokens.PASTEBIN_USER_TOKEN:
+        data['api_paste_private'] = 0
+        data.pop('api_user_key')
+
     response = requests.post('https://pastebin.com/api/api_post.php', data=data)
     
     if response.status_code != 200:
         main.log.error('API error. Response: ' + response.text)
 
-        # If maximum pastes as user reached try to paste as guest
+        # If user pastes limit exceeded try to paste as guest
         # ( gives 10 additional pastes )
-        if 'maximum pastes' in response.text:
+        if 'maximum pastes' in response.text and tokens.PASTEBIN_USER_TOKEN:
             data['api_paste_private'] = 0
             data.pop('api_user_key')
+
             response = requests.post('https://pastebin.com/api/api_post.php', data=data)
 
     result = catch_api_errors(response.text)
