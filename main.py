@@ -1,12 +1,13 @@
 import logging
 import telebot
+from telebot.types import Message
 
 import utils.dpaste as dpaste
 import utils.pastebin as pastebin
 import utils.tokens as tokens
 
 # Amount of created pastes (global var)
-pastes_count = 0
+pastes_count: int = 0
 
 # Create bot instance
 bot = telebot.TeleBot(tokens.TELEGRAM_BOT_TOKEN)
@@ -19,7 +20,7 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 log = logging.getLogger('logger')
 
 
-def parse_message(message):
+def parse_message(message: Message) -> tuple:
     # Read message from user and parse service (pastebin or dpaste), 
     # name, code and language from it
     
@@ -35,7 +36,7 @@ def parse_message(message):
 
 
 @bot.message_handler(func=lambda message : '/pastebin' in message.text or '/dpaste' in message.text)
-def handle_paste_command(message):
+def handle_paste_command(message: Message) -> Message:
     # Handling '/pastebin' and '/dpaste' commands
 
     # User must reply to message with code
@@ -43,7 +44,8 @@ def handle_paste_command(message):
         return bot.reply_to(message, 'Вы должны ответить на сообщение с кодом')
 
     service, name, code, lang = parse_message(message)
-    log.info(f'Got {service} request from {name} for {lang if lang else "unspecified"} language')
+    log.info(f'Got {service} request from {message.from_user.first_name} \
+        for {lang if lang else "unspecified"} language')
 
     if service == 'pastebin':
         if tokens.PASTEBIN_API_TOKEN:
@@ -62,7 +64,7 @@ def handle_paste_command(message):
 
 
 @bot.message_handler(commands=['start'])
-def handle_start_command(message):
+def handle_start_command(message: Message) -> Message:
     # Handling '/start' command
 
     log.info(f'{message.from_user.first_name} started bot')
@@ -72,7 +74,7 @@ def handle_start_command(message):
 
 
 @bot.message_handler(commands=['help'])
-def handle_help_command(message):
+def handle_help_command(message: Message) -> Message:
     # Handling '/help' command
 
     log.info(f'{message.from_user.first_name} reads help message')

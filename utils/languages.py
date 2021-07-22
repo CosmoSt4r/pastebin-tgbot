@@ -7,7 +7,7 @@ languages = {'cpp'      : ['c++', 'с++', 'си++', 'сплюсплюс', 'си�
              'csharp'   : ['c#', 'с#', 'сишарп', 'сишарп', 'сшарп']}
 
 
-def normalize(lang):
+def normalize(lang: str) -> str:
     # Try to cast language to proper name
     # if failed return passed value
 

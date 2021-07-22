@@ -5,7 +5,7 @@ import utils.languages as languages
 import utils.tokens as tokens
 
 
-def catch_api_errors(api_response):
+def catch_api_errors(api_response: str) -> str:
     # Catch various Pastebin API response errors
     # Logs the error and returns user-friendly error message
     
@@ -30,17 +30,17 @@ def catch_api_errors(api_response):
     return 'Произошла ошибка'
 
 
-def create_paste(name, code, lang):
-    # Create paste with given parameters with 1 day time limit
+def create_paste(name: str, code: str, lang: str) -> str:
+    # Create paste with given parameters and 1 day time limit
     
-    data = {'api_dev_key': tokens.PASTEBIN_API_TOKEN,
-            'api_option': 'paste',
-            'api_paste_code': code,
-            'api_paste_private': '1',
-            'api_paste_name': name,
-            'api_paste_expire_date': '1D',
-            'api_user_key': tokens.PASTEBIN_USER_TOKEN,
-            'api_paste_format': languages.normalize(lang)}
+    data = {'api_dev_key':              tokens.PASTEBIN_API_TOKEN,
+            'api_option':               'paste',
+            'api_paste_code':           code,
+            'api_paste_private':        '1',
+            'api_paste_name':           name,
+            'api_paste_expire_date':    '1D',
+            'api_user_key':             tokens.PASTEBIN_USER_TOKEN,
+            'api_paste_format':         languages.normalize(lang)}
 
     if not tokens.PASTEBIN_USER_TOKEN:
         data['api_paste_private'] = 0
